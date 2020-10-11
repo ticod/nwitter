@@ -36,13 +36,29 @@ const Profile = ({ refreshUser, userObj }) => {
         getMyNweets();
     }, []);
     return (
-    <>
-    <form onSubmit={onSubmit}>
-        <input onChange={onChange} type="text" placeholder="Display Name" value={newDisplayName} />
-        <input type="submit" value="Update Profile" />
-    </form>
-        <button onClick={onLogOutClick}>Logout</button>
-    </>
+    <div className="container">
+        <form onSubmit={onSubmit} className="profileForm">
+            <input 
+                onChange={onChange} 
+                className="formInput" 
+                autoFocus 
+                type="text" 
+                placeholder="Display Name" 
+                value={newDisplayName} 
+            />
+            <input 
+                type="submit" 
+                value="Update Profile" 
+                className="formBtn" 
+                style={{
+                    marginTop: 10,
+                }} 
+            />
+        </form>
+        <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
+            Log Out
+        </span>
+    </div>
     );
 };
 
