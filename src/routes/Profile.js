@@ -1,10 +1,13 @@
 import { authService, dbService } from "fbase";
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import Nweet from "components/Nweet";
+import NweetFactory from "components/NweetFactory";
 
 const Profile = ({ refreshUser, userObj }) => {
     const history = useHistory();
     const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
+    const [nweets, setNweets] = useState([]);
     const onLogOutClick = () => {
         authService.signOut();
         history.push("/");
@@ -25,12 +28,13 @@ const Profile = ({ refreshUser, userObj }) => {
         }
     }
     const getMyNweets = async() => {
-        const nweets = await dbService
-            .collection("nweets")
-            .where("creatorId", "==", userObj.uid)
-            .orderBy("createdAt")
-            .get();
-        console.log(nweets.docs.map((doc) => doc.data()));
+        dbService.collection("nweets").where("creatorId", "==", userObj.uid).orderBy("createdAt", "desc").onSnapshot(snapshot => {
+            const nweetArray = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+            setNweets(nweetArray);
+        });
     }
     useEffect(() => {
         getMyNweets();
@@ -58,6 +62,20 @@ const Profile = ({ refreshUser, userObj }) => {
         <span className="formBtn cancelBtn logOut" onClick={onLogOutClick}>
             Log Out
         </span>
+        <div className="container profileNweet">
+            <div>
+                내 글
+            </div>
+            <div style={{ marginTop: 30 }}>
+                {nweets.map((nweet) => (
+                    <Nweet 
+                        // key={nweet.id} 
+                        nweetObj={nweet} 
+                        isOwner={nweet.creatorId === userObj.uid} 
+                    />
+                ))}
+            </div>
+        </div>
     </div>
     );
 };

@@ -82,6 +82,12 @@ form {
 
 .logOut {
   margin-top: 50px;
+  margin-bottom: 50px;
+}
+
+.profileNweet {
+    padding-top: 50px;
+    border-top: 1px solid rgba(255, 255, 255, 0.9);
 }
 
 /* Nwitter Factory */

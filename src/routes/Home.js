@@ -23,7 +23,7 @@ const Home = ({ userObj }) => {
             <div style={{ marginTop: 30 }}>
                 {nweets.map((nweet) => (
                     <Nweet 
-                        key={nweet.id} 
+                        // key={nweet.id} 
                         nweetObj={nweet} 
                         isOwner={nweet.creatorId === userObj.uid} 
                     />
